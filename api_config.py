@@ -20,7 +20,7 @@ if env == 'local':
     FILE_SEPARATOR = '/'
 else:
     DOWNLOAD_LOCATION = '/home/ubuntu/efs_shared/indexer'
-    FFMPEG_PATH = '/usr/bin/ffmpeg'
+    FFMPEG_PATH = '/usr/bin/'
     FILE_SEPARATOR = '/'
 
 
