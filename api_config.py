@@ -5,6 +5,8 @@ env = 'local'
 if len(sys.argv)>1:
     env = sys.argv[1]
 
+print('Environment ',env)
+
 SCOPES = ['https://www.googleapis.com/auth/youtube.force-ssl']
 API_SERVICE_NAME = 'youtube'
 API_VERSION = 'v3'
