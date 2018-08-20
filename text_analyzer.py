@@ -2,10 +2,12 @@
 import api_config as config
 import os
 import sys
+import json
 
 def get_text(id):
     response_text = {}
     out_text_file_name_raw = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR + id + config.TEXT_RAW + config.OUTPUT_TEXT_FILE_EXT
+    out_text_file_name_transcript = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR + id + config.TEXT_TRANSCRIPT + config.OUTPUT_TEXT_FILE_EXT
     out_text_file_name_summary_abs = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR + id + config.TEXT_SUMMARY_ABSTRACT + config.OUTPUT_TEXT_FILE_EXT
     out_text_file_name_summary_exact = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR + id + config.TEXT_SUMMARY_EXACT + config.OUTPUT_TEXT_FILE_EXT
     out_text_file_name_nr = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR + id + config.TEXT_NAMED_ENTITIES + config.OUTPUT_TEXT_FILE_EXT
@@ -14,6 +16,11 @@ def get_text(id):
             with open(out_text_file_name_raw, 'r', encoding='utf8') as f:
                 raw_text = f.read()
                 response_text['raw'] = raw_text
+        if os.path.isfile(out_text_file_name_transcript):
+            with open(out_text_file_name_transcript, 'r', encoding='utf8') as f:
+                trans_text = f.read()
+                json_obj = json.loads(trans_text)
+                response_text['transcript'] = json_obj
         if os.path.isfile(out_text_file_name_summary_abs):
             with open(out_text_file_name_summary_abs, 'r', encoding='utf8') as f:
                 summary_text_abs = f.read()
