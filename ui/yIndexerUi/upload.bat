@@ -1,0 +1,1 @@
+gdrive-windows-x64.exe upload C:\personal\project\y_indexer\ui\yIndexerUi\android\app\build\outputs\apk\app-debug.apk
