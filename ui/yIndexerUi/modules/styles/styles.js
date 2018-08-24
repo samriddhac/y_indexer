@@ -18,8 +18,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems:'center'
   },
+  headerIcon: {
+    width:40,
+    color:'#ffffff'
+  },
+  headerIconSearch: {
+    justifyContent:'flex-end',
+    paddingLeft:5,
+    paddingRight:10
+  },
+  headerText: {
+    flex:3,
+    fontSize: 20,
+    color: '#ffffff',
+    paddingLeft:20
+  },
   baseContainer: {
-  	flex: 10,
+  	flex: 12,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
@@ -27,13 +42,6 @@ const styles = StyleSheet.create({
   defaultFont: {
     fontWeight: 'bold',
     fontFamily: 'notoserif'
-  },
-  headerText: {
-    flex:3,
-    fontSize: 20,
-    color: '#ffffff',
-    paddingTop: 20,
-    paddingLeft:20
   },
   searchBoxContainer: {
     flex: 1,
@@ -45,10 +53,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: 10,
   },
   searchBack: {
-    color: '#4A44F2',
+    color: '#bc0909',
     flex: 1
   },
   TextInputStyle: {

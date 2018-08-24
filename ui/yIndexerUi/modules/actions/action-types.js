@@ -1,1 +1,2 @@
 export const CHANGE_VIEW = 'CHANGE_VIEW';
+export const SEARCH_YOUTUBE = 'SEARCH_YOUTUBE';
