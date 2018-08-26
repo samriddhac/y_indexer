@@ -6,9 +6,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { createAnimatableComponent, View, Text } from 'react-native-animatable';
 import { connect } from 'react-redux';
 import styles from '../styles/styles';
-import {search, setcontext} from '../actions/index';
+import {search, setcontext, changeView} from '../actions/index';
 import _ from 'lodash';
-
+import {VIEW_HOME} from '../common/constants';
 
 class Header extends Component {
 
@@ -43,7 +43,10 @@ class Header extends Component {
 			return (
 				<View animation="fadeInRight" delay={100} style={styles.searchBoxContainer}>
 					<KeyboardAvoidingView style={styles.searchTextBox} behavior={this.state.behavior} >
-						<TouchableNativeFeedback onPress={()=>{this._showSearch(false)}}
+						<TouchableNativeFeedback onPress={()=>{
+							this.props.setcontext(1);
+							this.props.changeView(VIEW_HOME);
+						}}
 						background={TouchableNativeFeedback.Ripple('#CC39C4', true)}>
 							<View style={[styles.backContainer]}>
 								<MaterialCommunityIcons name="arrow-left" size={30} 
@@ -90,4 +93,4 @@ class Header extends Component {
 	}
 }
 
-export default connect(null, {search, setcontext})(Header);
+export default connect(null, {search, setcontext, changeView})(Header);

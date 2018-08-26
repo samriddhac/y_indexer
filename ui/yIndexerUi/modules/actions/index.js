@@ -3,7 +3,9 @@ import {CHANGE_VIEW,
 		START_DOWNLOAD,
 		LOAD_DOWNLOAD,
 		DELETE_DOWNLOAD,
-		SET_CONTEXT} from './action-types';
+		SET_CONTEXT,
+		GET_TEXT
+	} from './action-types';
 import axios from 'axios';
 import {API_SERVER, STATE} from '../common/constants';
 import {AsyncStorage} from 'react-native';
@@ -11,7 +13,7 @@ import {AsyncStorage} from 'react-native';
 export function changeView(value) {
 	return {
 		type:CHANGE_VIEW,
-		payload: value
+		payload: {id:value}
 	};
 }
 
@@ -37,7 +39,7 @@ export function search(value, token) {
 		}
 }
 
-export function download(value, token) {
+export function download(value) {
 	let url = API_SERVER+'/process/videos?'+'id='+value.id;
 	request = axios.get(url);
 	return (dispatch) => {
@@ -45,6 +47,24 @@ export function download(value, token) {
 			dispatch({
 				type:START_DOWNLOAD,
 				payload:{data:value}
+			});
+		}).catch(function(err) {
+		    console.log('error ',err);
+		});
+	}
+}
+
+export function gettext(value) {
+	let url = API_SERVER+'/get/texts?'+'id='+value.id;
+	request = axios.get(url);
+	return (dispatch) => {
+		request.then((response) => {
+			dispatch({
+				type:GET_TEXT,
+				payload:{
+					metadata:value,
+					text:response.data
+				}
 			});
 		}).catch(function(err) {
 		    console.log('error ',err);

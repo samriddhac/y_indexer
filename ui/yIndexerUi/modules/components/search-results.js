@@ -11,7 +11,8 @@ import {search,
 		changeView, 
 		download,
 		deletedownload,
-		loaddownload
+		loaddownload,
+		gettext
 	} from '../actions/index';
 import SearchListItem from './search-list-item';
 import styles from '../styles/styles';
@@ -102,11 +103,15 @@ class SearchResults extends Component {
 	}
 
 	_onRowPressed(data){
+		console.log(data);
+		this.props.gettext(data);
 		this.props.changeView(VIEW_CONTENT);
 	}
 
 	_onSwipeUp(state){
-		this.props.search(this.props.text, this.props.token);
+		if(this.props.context === 2) {
+			this.props.search(this.props.text, this.props.token);
+		}
 	}
 
 	render() {
@@ -164,4 +169,4 @@ function mapStateToProps(state) {
 }
 export default connect(mapStateToProps, 
 	{changeView, search, download, loaddownload,
-	deletedownload})(SearchResults);
+	deletedownload, gettext})(SearchResults);

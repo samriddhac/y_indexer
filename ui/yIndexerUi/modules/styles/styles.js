@@ -114,15 +114,30 @@ const styles = StyleSheet.create({
     backgroundColor:'transparent',
     color: '#bc0909'
   },
-  spinnerContainer:{
+  contentMetadata: {
+    flex:2,
     flexDirection:'row',
-    flex: 1.8,
-    backgroundColor: 'transparent',
-    justifyContent:'flex-end',
-    alignItems: 'center'
+    justifyContent:'flex-start',
+    alignItems:'stretch',
+    paddingLeft:10,
+    paddingRight:10
   },
-  spinner: {
-    marginLeft: 5
+  contentThumb: {
+    flex:1,
+    width:50,
+    height:50,
+    padding:10
+  },
+  contentText: {
+    flex:7,
+    padding:5
+  },
+  contentBtn: {
+    flex:2,
+    padding:5,
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent',
+    padding:5
   }
 });
 export default styles;

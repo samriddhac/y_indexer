@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
-import {Text, View} from 'react-native';
-import { connect } from 'react-redux';
+import {View, 
+		Text,
+		} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from '../styles/styles';
+import Header from './header';
+import ContentResult from './content-result';
 
-export default class Index extends React.Component {
-  render() {
-    return (
-    	<View></View>
-    );
-  }
+export default class Content extends Component {
+	
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return (
+			<View style={styles.container}>
+				<Header backToSearch={true}/>
+				<ContentResult />
+			</View>
+		);
+	}
 }
+
