@@ -5,6 +5,7 @@ import {View,
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from '../styles/styles';
 import Header from './header';
+import SearchResults from './search-results';
 
 export default class Home extends Component {
 	
@@ -14,11 +15,9 @@ export default class Home extends Component {
 
 	render() {
 		return (
-			<View style={styles.mainContainer}>
+			<View style={styles.container}>
 				<Header />
-				<View style={styles.baseContainer}>
-					<Text>(No search results)</Text>
-				</View>
+				<SearchResults />
 			</View>
 		);
 	}

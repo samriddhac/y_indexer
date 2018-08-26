@@ -1,3 +1,2 @@
 rootProject.name = 'yIndexerUi'
-
 include ':app'

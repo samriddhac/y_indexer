@@ -3,13 +3,9 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
-  },
-  mainContainer: {
-    flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#ffffff'
   },
   headerContainer: {
   	flex: 1,
@@ -38,6 +34,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  resultContainer: {
+    flex: 12,
+    alignItems: 'stretch'
   },
   defaultFont: {
     fontWeight: 'bold',
@@ -73,6 +73,56 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 44
+  },
+  searchResultContainer:{
+    flex:7,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    padding: 10
+  },
+  row: {
+    flex:10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch'
+  },
+  thumb:{
+    width:100,
+    height:80
+  },
+  rowText: {
+    marginLeft: 10
+  },
+  subRightContainer: {
+    flex:1,
+    backgroundColor: 'transparent'
+  },
+  subRightBtnContainer: {
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent'
+  },
+  selected: {
+    backgroundColor: '#d6d5f2'
+  },
+  unselected: {
+    backgroundColor: '#ffffff'
+  },
+  mapButton: {
+    flex:1,
+    paddingRight:6,
+    backgroundColor:'transparent',
+    color: '#bc0909'
+  },
+  spinnerContainer:{
+    flexDirection:'row',
+    flex: 1.8,
+    backgroundColor: 'transparent',
+    justifyContent:'flex-end',
+    alignItems: 'center'
+  },
+  spinner: {
+    marginLeft: 5
   }
 });
 export default styles;

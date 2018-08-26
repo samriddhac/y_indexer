@@ -1,2 +1,6 @@
 export const CHANGE_VIEW = 'CHANGE_VIEW';
 export const SEARCH_YOUTUBE = 'SEARCH_YOUTUBE';
+export const START_DOWNLOAD = 'START_DOWNLOAD';
+export const LOAD_DOWNLOAD = 'LOAD_DOWNLOAD';
+export const DELETE_DOWNLOAD = 'DELETE_DOWNLOAD';
+export const SET_CONTEXT = 'SET_CONTEXT';
