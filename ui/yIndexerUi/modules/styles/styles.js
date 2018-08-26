@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     color: '#bc0909'
   },
   contentMetadata: {
-    flex:2,
+    flex:1,
     flexDirection:'row',
     justifyContent:'flex-start',
     alignItems:'stretch',
@@ -138,6 +138,27 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     backgroundColor: 'transparent',
     padding:5
+  },
+  contentText: {
+    flex:10,
+    flexDirection:'row',
+    justifyContent:'flex-start',
+    alignItems:'stretch',
+    paddingLeft:10,
+    paddingRight:10
+  },
+  tabBar: {
+    flexDirection: 'row',
+    paddingTop: 10,
+  },
+  tabItem: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 16,
+  },
+  tabPane: {
+    flex: 1,
+    padding: 10,
   }
 });
 export default styles;

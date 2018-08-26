@@ -56,6 +56,7 @@ export function download(value) {
 
 export function gettext(value) {
 	let url = API_SERVER+'/get/texts?'+'id='+value.id;
+	console.log('url ',url);
 	request = axios.get(url);
 	return (dispatch) => {
 		request.then((response) => {

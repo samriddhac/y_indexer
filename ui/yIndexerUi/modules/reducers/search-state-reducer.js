@@ -2,7 +2,9 @@ import {SEARCH_YOUTUBE,
 	START_DOWNLOAD,
 	LOAD_DOWNLOAD,
 	DELETE_DOWNLOAD,
+	GET_TEXT,
 	SET_CONTEXT} from '../actions/action-types';
+import {STATUS_READY} from '../common/constants';
 
 const INITIAL_STATE = {
 	context:1,
@@ -42,6 +44,11 @@ export default function (state=INITIAL_STATE, action) {
 			newState = { ...state, 
 				context:action.payload.data
 			};
+		case GET_TEXT:
+			newState = { ...state, 
+				search_results:setReadyResultStatus(action.payload.metadata.id, 
+					STATUS_READY,action.payload.text, state.saved_download)
+			};
 			return newState;
 		default:
 			return state;
@@ -66,6 +73,21 @@ function setResultStatus(id, status, prevresult){
 				item.status = status;
 			}
 		});
+	}
+	searchresult = [...prevresult]
+	return searchresult;
+}
+
+function setReadyResultStatus(id, status, text, prevresult){
+	let searchresult = [];
+	if(text.raw) {
+		if(prevresult && prevresult.length>0) {
+			prevresult.forEach((item)=>{
+				if(item.id === id){
+					item.status = status;
+				}
+			});
+		}
 	}
 	searchresult = [...prevresult]
 	return searchresult;

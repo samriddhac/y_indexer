@@ -19,7 +19,6 @@ export default class SearchListItem extends React.PureComponent {
 	}
 
 	_onPressRow() {
-		console.log('this.props ',this.props._onRowPressed);
 		let data = this.props.data.item;
 		this.props._onRowPressed(data);
 	}

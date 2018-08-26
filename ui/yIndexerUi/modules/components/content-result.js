@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import {KeyboardAvoidingView,
 	Image,
 	TouchableHighlight,
@@ -14,6 +15,7 @@ import {download,
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { STATUS_PENDING,
 	STATUS_READY} from '../common/constants';
+import TabContent from './tab-content';
 
 class ContentResult extends Component {
 
@@ -81,6 +83,12 @@ class ContentResult extends Component {
 			&& data.title!=='') {
 			title = data.title;
 		}
+		let datePublish = '';
+		if(data.publishedAt!==undefined && data.publishedAt!==null 
+			&& data.publishedAt!=='') {
+			datePublish = new Date(data.publishedAt);
+			datePublish = moment(datePublish).format('HH:mm YYYY-DD-MM')
+		}
 		return (
 			<View style={styles.contentMetadata}>
 				<Image style={[styles.contentThumb]} source={thumbnail}
@@ -95,10 +103,21 @@ class ContentResult extends Component {
 		);
 	}
 
+	_renderText(){
+		let data = this.props.text;
+
+		return (
+			<View style={styles.contentText}>
+				<TabContent data={data} />
+			</View>
+		);
+	}
+
 	render() {
 		return(
 			<View animation="fadeInRight" delay={100} style={styles.resultContainer}>
 				{this._renderMetadata()}
+				{this._renderText()}
 			</View>
 		);
 	}
