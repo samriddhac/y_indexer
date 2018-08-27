@@ -26,7 +26,7 @@ def processVideo(id, type):
 
 def processVideoAsync(id, type):
     try:
-        if id and type:
+        if id:
             t1 = current_milli_time()
             url = config.BASE_URI+id
             yt = YouTube(url)

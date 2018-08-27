@@ -20,7 +20,7 @@ S3_FOLDER = 's3://video-uploads-sam'
 
 if env == 'local':
     DOWNLOAD_LOCATION = 'C://downloaded_videos'
-    FFMPEG_PATH = 'C://personal/project/practice_work/ffmpeg/bin/'
+    FFMPEG_PATH = 'F://Samriddha/personal/ffmpeg/bin/'
     FILE_SEPARATOR = '/'
     AWS_CLI_PATH = r'C://Program Files/Amazon/AWSCLI/'
 else:
