@@ -12,7 +12,8 @@ import {search,
 		download,
 		deletedownload,
 		loaddownload,
-		gettext
+		gettext,
+		setreadystate
 	} from '../actions/index';
 import SearchListItem from './search-list-item';
 import styles from '../styles/styles';
@@ -43,7 +44,10 @@ class SearchResults extends Component {
 	_emptyView(){
 		return (
 			<View style={styles.baseContainer}>
-				<Text>(No search results)</Text>
+				<Text style={styles.defaultFont}>Welcome!!</Text>
+				<Text style={styles.defaultFont}>Please search for youtube videos.</Text>
+				<Text style={styles.defaultFont}>Click on the download button to generate the text content.</Text>
+				<Text style={styles.defaultFont}>View the text content by tapping on the row.</Text>
 			</View>
 		);
 	}
@@ -103,7 +107,6 @@ class SearchResults extends Component {
 	}
 
 	_onRowPressed(data){
-		console.log(data);
 		this.props.gettext(data);
 		this.props.changeView(VIEW_CONTENT);
 	}
@@ -169,4 +172,4 @@ function mapStateToProps(state) {
 }
 export default connect(mapStateToProps, 
 	{changeView, search, download, loaddownload,
-	deletedownload, gettext})(SearchResults);
+	deletedownload, gettext, setreadystate})(SearchResults);

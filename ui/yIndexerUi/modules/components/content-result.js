@@ -10,7 +10,9 @@ import { createAnimatableComponent, View, Text } from 'react-native-animatable';
 import styles from '../styles/styles';
 import {download,
 		deletedownload,
-		gettext
+		gettext,
+		setreadystate,
+		setcontentstatus
 	} from '../actions/index';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { STATUS_PENDING,
@@ -33,6 +35,7 @@ class ContentResult extends Component {
 				<View style={styles.contentBtn}>
 					<TouchableNativeFeedback onPress={()=>{
 							this.props.deletedownload(data.id);
+							this.props.setcontentstatus('');
 						}}
 						background={TouchableNativeFeedback.Ripple('#CC39C4', true)}>
 						<MaterialCommunityIcons name="delete" size={30} 
@@ -51,6 +54,14 @@ class ContentResult extends Component {
 						<MaterialCommunityIcons name="refresh" size={30} 
 							style={[styles.mapButton]} />
 					</TouchableNativeFeedback>
+					<TouchableNativeFeedback onPress={()=>{
+							this.props.deletedownload(data.id);
+							this.props.setcontentstatus('');
+						}}
+						background={TouchableNativeFeedback.Ripple('#CC39C4', true)}>
+						<MaterialCommunityIcons name="delete" size={30} 
+							style={[styles.mapButton]} />
+					</TouchableNativeFeedback>
 				</View>
 			);
 		}
@@ -58,7 +69,9 @@ class ContentResult extends Component {
 			return (
 				<View style={styles.contentBtn}>
 					<TouchableNativeFeedback onPress={()=>{
+							data.status = STATUS_PENDING;
 							this.props.download(data);
+							this.props.setcontentstatus(STATUS_PENDING);
 						}}
 						background={TouchableNativeFeedback.Ripple('#CC39C4', true)}>
 						<MaterialCommunityIcons name="briefcase-download" size={30} 
@@ -137,4 +150,5 @@ function mapStateToProps(state) {
 	};
 }
 export default connect(mapStateToProps, 
-	{download, deletedownload, gettext})(ContentResult);
+	{download, deletedownload, gettext, 
+		setreadystate, setcontentstatus})(ContentResult);

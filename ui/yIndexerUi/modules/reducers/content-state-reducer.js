@@ -1,5 +1,5 @@
-import {GET_TEXT} from '../actions/action-types';
-
+import {GET_TEXT, SET_CONTENT_STATUS} from '../actions/action-types';
+import {STATUS_READY} from '../common/constants';
 
 const INITIAL_STATE = {
 	metadata:{},
@@ -10,11 +10,23 @@ export default function (state=INITIAL_STATE, action) {
 	switch(action.type) {
 		case GET_TEXT:
 			newState = { ...state, 
-				metadata:action.payload.metadata,
+				metadata:getMetadata(action.payload.metadata,action.payload.text),
 				text:action.payload.text
+			};
+			return newState;
+		case SET_CONTENT_STATUS:
+			newState = { ...state, 
+				metadata:{...state.metadata, status:action.payload.data}
 			};
 			return newState;
 		default:
 			return state;
 	}
+}
+
+function getMetadata(metadata, text) {
+	if(text.raw) {
+		metadata.status = STATUS_READY
+	}
+	return metadata;
 }

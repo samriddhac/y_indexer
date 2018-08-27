@@ -4,7 +4,9 @@ import {CHANGE_VIEW,
 		LOAD_DOWNLOAD,
 		DELETE_DOWNLOAD,
 		SET_CONTEXT,
-		GET_TEXT
+		GET_TEXT,
+		SET_READY_STATE,
+		SET_CONTENT_STATUS
 	} from './action-types';
 import axios from 'axios';
 import {API_SERVER, STATE} from '../common/constants';
@@ -110,6 +112,20 @@ export function deletedownload(value) {
 export function setcontext(value) {
 	return {
 		type:SET_CONTEXT,
+		payload:{data:value}
+	};
+}
+
+export function setreadystate(value) {
+	return {
+		type:SET_READY_STATE,
+		payload:{data:value}
+	};
+}
+
+export function setcontentstatus(value) {
+	return {
+		type:SET_CONTENT_STATUS,
 		payload:{data:value}
 	};
 }
