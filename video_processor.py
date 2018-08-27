@@ -43,7 +43,7 @@ def processVideoAsync(id, type):
             out_text_file_path = file_location+out_text_file_name
             
             pr_status = 0
-            split_wav = False
+            split_wav = True
             
             if not os.path.isfile(in_file_path):
                 print('Downloading ', url)
@@ -58,22 +58,14 @@ def processVideoAsync(id, type):
                 pr_status = subprocess.call(command, shell=True)
                 
             if pr_status == 0:
-                print('Finding the length of the audio ',in_file_path)
-                cmd_1 = config.FFMPEG_PATH+'ffprobe -v error -select_streams v:0 -show_entries stream=duration -of default=noprint_wrappers=1:nokey=1 '+in_file_path
-                p = subprocess.Popen(cmd_1, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                output, err = p.communicate()
-                if output is not None:
-                    audio_l = int(float(output.decode("utf-8")))
-                    print('Audio length ',audio_l,' seconds')
-                    if audio_l > config.max_file_duration:
-                        cmd_2 = config.FFMPEG_PATH+'ffmpeg -i '+ out_file_path \
-                        +' -f segment -segment_time '+str(config.max_file_duration)+' -c copy ' \
-                        +config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR+id+'%09d' \
-                        +config.OUTPUT_FILE_EXT
-                        pr_status_segment = subprocess.call(cmd_2, shell=True)
-                        if pr_status_segment == 0:
-                            split_wav= True
-                            print('Audio segment success ',pr_status_segment)
+                cmd_2 = config.FFMPEG_PATH+'ffmpeg -i '+ out_file_path \
+                +' -f segment -segment_time '+str(config.max_file_duration)+' -c copy ' \
+                +config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR+id+'%09d' \
+                +config.OUTPUT_FILE_EXT
+                pr_status_segment = subprocess.call(cmd_2, shell=True)
+                if pr_status_segment == 0:
+                    split_wav= True
+                    print('Audio segment success ',pr_status_segment)
                             
             if split_wav == True:
                 files = [file_location+id+f[len(id):] for f in os.listdir(config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR) 
@@ -101,8 +93,8 @@ def processVideoAsync(id, type):
                 with open(out_text_file_path, 'w') as f:
                     f.write(raw_text)
                     
-                if split_wav == True:
-                    delete_temp_files(files)
+            if split_wav == True:
+                delete_temp_files(files)
 
             if os.path.isfile(out_text_file_path):
                 print('Convertion successfull ')
