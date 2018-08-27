@@ -29,7 +29,7 @@ export function search(value, token) {
 			request.then((response) => {
 				dispatch({
 					type:SEARCH_YOUTUBE,
-					payload:{token:token, data:response.data.data}
+					payload:{token:token, data:response.data.data, text:value}
 				});
 			}).catch(function(err) {
 			    console.log('error ',err);

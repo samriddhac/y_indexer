@@ -4,7 +4,7 @@ import {SEARCH_YOUTUBE,
 	DELETE_DOWNLOAD,
 	SET_READY_STATE,
 	SET_CONTEXT} from '../actions/action-types';
-import {STATUS_READY} from '../common/constants';
+import {STATUS_READY, STATUS_PENDING} from '../common/constants';
 import _ from 'lodash';
 
 const INITIAL_STATE = {
@@ -24,8 +24,8 @@ export default function (state=INITIAL_STATE, action) {
 			return newState;
 		case START_DOWNLOAD:
 			newState = { ...state, 
-				saved_download:[action.payload.data, ...state.saved_download],
-				search_results:setResultStatus(action.payload.data.id, 
+				saved_download:setSavedDownload(action.payload.data,state.saved_download),
+				search_results:setResultStatus(action.payload.data, 
 					action.payload.data.status,state.search_results)
 			};
 			return newState;
@@ -55,22 +55,40 @@ export default function (state=INITIAL_STATE, action) {
 	}
 }
 
+function setSavedDownload(data, prevresult) {
+	exists = false;
+	let searchresult = [];
+	if(prevresult && prevresult.length>0) {
+		prevresult.forEach((item)=>{
+			if(item.id === data.id){
+				item.status = STATUS_PENDING;
+				exists = true;
+			}
+		});
+	}
+	if(exists===false){
+		prevresult=[data, ...prevresult];
+	}
+	searchresult = [...prevresult];
+	return searchresult;
+}
+
 function getResult(payload, prevresult) {
 	if(payload.token && payload.token !==undefined
 		&& payload.token!==null){
-		return [...payload.data.items, ...prevresult]
+		return [ ...prevresult,...payload.data.items]
 	}
 	else {
 		return [...payload.data.items]
 	}
 }
 
-function setResultStatus(id,prevresult){
+function setResultStatus(id,status,prevresult){
 	let searchresult = [];
 	if(prevresult && prevresult.length>0) {
 		prevresult.forEach((item)=>{
 			if(item.id === id){
-				item.status = STATUS_READY;
+				item.status = status;
 			}
 		});
 	}

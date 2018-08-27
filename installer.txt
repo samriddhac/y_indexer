@@ -1,2 +1,3 @@
 conda install numpy pandas matplotlib keras scikit-learn
 pip install msgpack google-api-python-client pocketsphinx pyaudio SpeechRecognition boto3 pytube
+my-key-alias
