@@ -9,6 +9,7 @@ import threading
 import speech_recognition as sr
 import boto3
 import urllib
+import re
 import api_config as config
 import text_analyzer as t_analyzer
 
@@ -32,15 +33,17 @@ def processVideoAsync(id, type):
             yt = YouTube(url)
             file_name = yt.streams.first().default_filename
             
+            file_location =  config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR
             in_file_name = id + config.INPUT_FILE_EXT
             out_file_name = id + config.OUTPUT_FILE_EXT
             out_text_file_name = id + config.TEXT_RAW + config.OUTPUT_TEXT_FILE_EXT
-            file_path = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR+file_name
-            in_file_path = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR+in_file_name
-            out_file_path = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR+out_file_name
-            out_text_file_path = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR+out_text_file_name
+            file_path = file_location+file_name
+            in_file_path = file_location+in_file_name
+            out_file_path = file_location+out_file_name
+            out_text_file_path = file_location+out_text_file_name
             
             pr_status = 0
+            split_wav = False
             
             if not os.path.isfile(in_file_path):
                 print('Downloading ', url)
@@ -53,26 +56,60 @@ def processVideoAsync(id, type):
             if os.path.isfile(in_file_path) and not os.path.isfile(out_file_path):
                 command = config.FFMPEG_PATH+'ffmpeg -i '+in_file_path+' '+out_file_path
                 pr_status = subprocess.call(command, shell=True)
-            
-            if config.aws_transcribe_enabled == 'Y':
-                perform_aws_transcribe(id)
-            
-            if os.path.isfile(out_file_path) and pr_status == 0 and not os.path.isfile(out_text_file_path):
-                r = sr.Recognizer()
-                with sr.AudioFile(out_file_path) as source:
-                    audio = r.record(source)
-                    try:
-                        raw_text = r.recognize_sphinx(audio)
-                        with open(out_text_file_path, 'w') as f:
-                            f.write(raw_text)
-                    except sr.UnknownValueError:
-                        print("Sphinx could not understand audio")
-                    except sr.RequestError as e:
-                        print("Sphinx error; {0}".format(e))
                 
+            if pr_status == 0:
+                print('Finding the length of the audio ',in_file_path)
+                cmd_1 = config.FFMPEG_PATH+'ffprobe -v error -select_streams v:0 -show_entries stream=duration -of default=noprint_wrappers=1:nokey=1 '+in_file_path
+                p = subprocess.Popen(cmd_1, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                output, err = p.communicate()
+                if output is not None:
+                    audio_l = int(float(output.decode("utf-8")))
+                    print('Audio length ',audio_l,' seconds')
+                    if audio_l > config.max_file_duration:
+                        cmd_2 = config.FFMPEG_PATH+'ffmpeg -i '+ out_file_path \
+                        +' -f segment -segment_time '+str(config.max_file_duration)+' -c copy ' \
+                        +config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR+id+'%09d' \
+                        +config.OUTPUT_FILE_EXT
+                        pr_status_segment = subprocess.call(cmd_2, shell=True)
+                        if pr_status_segment == 0:
+                            split_wav= True
+                            print('Audio segment success ',pr_status_segment)
+                            
+            if split_wav == True:
+                files = [file_location+id+f[len(id):] for f in os.listdir(config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR) 
+                            if re.match(r''+id+'+', f) and f[len(id)]!='.']
+            else:
+                files = [out_file_path]
+            
+            if not os.path.isfile(out_text_file_path):
+                r = sr.Recognizer()
+                raw_text = ''
+                for file in files:
+                    if os.path.isfile(file):
+                        t3 = current_milli_time()
+                        with sr.AudioFile(file) as source:
+                            audio = r.record(source)
+                            try:
+                                raw_text =raw_text + r.recognize_sphinx(audio)
+                            except sr.UnknownValueError:
+                                print("Sphinx could not understand audio")
+                            except sr.RequestError as e:
+                                print("Sphinx error; {0}".format(e))
+                        t4 = current_milli_time()
+                        print('File ',file,' transcribe time ',(t4-t3))
+                        
+                with open(out_text_file_path, 'w') as f:
+                    f.write(raw_text)
+                    
+                if split_wav == True:
+                    delete_temp_files(files)
+
             if os.path.isfile(out_text_file_path):
                 print('Convertion successfull ')
                 t_analyzer.analyze_text(id)
+            
+            if config.aws_transcribe_enabled == 'Y':
+                perform_aws_transcribe(id)
             
             t2 = current_milli_time()
             print('Execution time ', (t2-t1))
@@ -81,6 +118,14 @@ def processVideoAsync(id, type):
         print('Conversion failed ', sys.exc_info()[0])
         raise
         
+
+def delete_temp_files(filelist):
+    try:
+        for file in filelist:
+            os.remove(file)
+    except:
+        print('Conversion failed ', sys.exc_info()[0])
+
 def perform_aws_transcribe(id):
     in_file_name = id + config.OUTPUT_FILE_EXT
     in_file_path = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR+in_file_name

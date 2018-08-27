@@ -14,6 +14,8 @@ SECRET_KEY = 'AIzaSyB5vbq9PNE8Oid_Gsb1YfGci0xdf3H4O-E'
 
 aws_transcribe_enabled = 'N'
 
+max_file_duration = 30
+
 BASE_URI = 'https://www.youtube.com/watch?v='
 S3_URI = 'https://s3-us-west-2.amazonaws.com/video-uploads-sam/'
 S3_FOLDER = 's3://video-uploads-sam'
