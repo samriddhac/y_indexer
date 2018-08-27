@@ -26,7 +26,6 @@ def send_response(response_type, status=200, data=None, error=None):
     return print_response(build_wrap_response(params[0], params[1], params[2]))
 
 def print_response(response):
-  print(response)  
   if response:
     return flask.jsonify(**response)
   else:
