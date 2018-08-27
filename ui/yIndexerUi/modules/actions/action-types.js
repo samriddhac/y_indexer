@@ -7,3 +7,4 @@ export const SET_CONTEXT = 'SET_CONTEXT';
 export const GET_TEXT = 'GET_TEXT';
 export const SET_READY_STATE = 'SET_READY_STATE';
 export const SET_CONTENT_STATUS = 'SET_CONTENT_STATUS';
+export const CLEAR_SEARCH = 'CLEAR_SEARCH';

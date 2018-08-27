@@ -6,7 +6,8 @@ import {CHANGE_VIEW,
 		SET_CONTEXT,
 		GET_TEXT,
 		SET_READY_STATE,
-		SET_CONTENT_STATUS
+		SET_CONTENT_STATUS,
+		CLEAR_SEARCH
 	} from './action-types';
 import axios from 'axios';
 import {API_SERVER, STATE} from '../common/constants';
@@ -145,5 +146,11 @@ export function setcontentstatus(value) {
 	return {
 		type:SET_CONTENT_STATUS,
 		payload:{data:value}
+	};
+}
+
+export function clearsearch() {
+	return {
+		type:CLEAR_SEARCH
 	};
 }

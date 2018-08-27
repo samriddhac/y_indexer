@@ -83,7 +83,8 @@ class SearchResults extends Component {
 	}
 
 	_renderRows() {
-		results = this.props.savedresults;
+		let results = [];
+		console.log('context ',this.props.context);
 		if(this.props.context === 2) {
 			results = this.props.results;
 		}

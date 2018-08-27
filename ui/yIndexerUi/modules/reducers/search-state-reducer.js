@@ -3,7 +3,8 @@ import {SEARCH_YOUTUBE,
 	LOAD_DOWNLOAD,
 	DELETE_DOWNLOAD,
 	SET_READY_STATE,
-	SET_CONTEXT} from '../actions/action-types';
+	SET_CONTEXT,
+	CLEAR_SEARCH} from '../actions/action-types';
 import {STATUS_READY, STATUS_PENDING} from '../common/constants';
 import _ from 'lodash';
 
@@ -49,6 +50,11 @@ export default function (state=INITIAL_STATE, action) {
 		case SET_READY_STATE:
 			newState = { ...state, 
 				saved_download:setResultStatusReady(action.payload.data,state.saved_download)};
+			return newState;
+		case CLEAR_SEARCH:
+			newState = { ...state, 
+				search_results:[],
+				text:''};
 			return newState;
 		default:
 			return state;

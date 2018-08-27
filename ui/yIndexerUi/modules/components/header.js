@@ -6,7 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { createAnimatableComponent, View, Text } from 'react-native-animatable';
 import { connect } from 'react-redux';
 import styles from '../styles/styles';
-import {search, setcontext, changeView} from '../actions/index';
+import {search, setcontext, changeView, clearsearch} from '../actions/index';
 import _ from 'lodash';
 import {VIEW_HOME} from '../common/constants';
 
@@ -21,13 +21,14 @@ class Header extends Component {
 	}
 
 	_showSearch(value) {
-		this.setState({...this.state, showsearch:value});
 		if(value === true) {
 			this.props.setcontext(2);
 		}
 		else {
+			this.props.clearsearch();
 			this.props.setcontext(1);
 		}
+		this.setState({...this.state, showsearch:value});
 	}
 
 	_searchData(query) {
@@ -93,4 +94,4 @@ class Header extends Component {
 	}
 }
 
-export default connect(null, {search, setcontext, changeView})(Header);
+export default connect(null, {search, setcontext, changeView, clearsearch})(Header);
