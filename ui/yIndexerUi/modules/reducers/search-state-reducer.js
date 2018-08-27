@@ -45,11 +45,14 @@ export default function (state=INITIAL_STATE, action) {
 				context:action.payload.data
 			};
 		case GET_TEXT:
-			newState = { ...state, 
-				search_results:setReadyResultStatus(action.payload.metadata.id, 
-					STATUS_READY,action.payload.text, state.saved_download)
-			};
-			return newState;
+			if(action.payload.metadata){
+				newState = { ...state, 
+					search_results:setReadyResultStatus(action.payload.metadata.id, 
+						STATUS_READY,action.payload.text, state.saved_download)
+				};
+				return newState;
+			}
+			return state;
 		default:
 			return state;
 	}
