@@ -47,7 +47,8 @@ export default function (state=INITIAL_STATE, action) {
 			};
 			return newState;
 		case SET_READY_STATE:
-			newState = { ...state};
+			newState = { ...state, 
+				saved_download:setResultStatusReady(action.payload.data,state.saved_download)};
 			return newState;
 		default:
 			return state;
@@ -64,11 +65,24 @@ function getResult(payload, prevresult) {
 	}
 }
 
-function setResultStatus(id, status, prevresult){
+function setResultStatus(id,prevresult){
 	let searchresult = [];
 	if(prevresult && prevresult.length>0) {
 		prevresult.forEach((item)=>{
 			if(item.id === id){
+				item.status = STATUS_READY;
+			}
+		});
+	}
+	searchresult = [...prevresult]
+	return searchresult;
+}
+
+function setResultStatusReady(data, prevresult){
+	let searchresult = [];
+	if(prevresult && prevresult.length>0) {
+		prevresult.forEach((item)=>{
+			if(data[item.id] && data[item.id] === true){
 				item.status = status;
 			}
 		});

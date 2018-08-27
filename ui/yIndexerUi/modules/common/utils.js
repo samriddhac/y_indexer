@@ -10,3 +10,23 @@ export const saveState = async (state) => {
 		console.error(err);
 	}
 }
+
+export const filterByStatus = (list,status) => {
+	let results = [];
+	if(list!==undefined && list!==null & list.length>0) {
+		list.forEach((item)=>{
+			if(item.status === status) {
+				results.push(item.id);
+			}
+		});
+	}
+	return results;
+}
+
+export const listToString = (list) => {
+	let results = '';
+	if(list!==undefined && list!==null & list.length>0) {
+		results = list.join();
+	}
+	return results;
+}

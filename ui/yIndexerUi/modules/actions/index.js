@@ -75,6 +75,24 @@ export function gettext(value) {
 	}
 }
 
+export function checktext(values) {
+	let url = API_SERVER+'/check/texts?'+'ids='+values;
+	console.log('url ',url);
+	request = axios.get(url);
+	return (dispatch) => {
+		request.then((response) => {
+			dispatch({
+				type:SET_READY_STATE,
+				payload:{
+					data:response.data
+				}
+			});
+		}).catch(function(err) {
+		    console.log('error ',err);
+		});
+	}
+}
+
 export function loaddownload(){
 	return (dispatch) => {
 		AsyncStorage.getItem(STATE).then((result)=>{
