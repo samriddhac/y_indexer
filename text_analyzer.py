@@ -38,5 +38,21 @@ def get_text(id):
         
     return response_text
 
+def check_text(ids):
+    response_text = {}
+    if ids is not '':
+        idxs = [x.strip() for x in ids.split(',')]
+        if len(idxs)>0:
+            for idx in idxs:
+                out_text_file_name_raw = config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR + idx + config.TEXT_RAW + config.OUTPUT_TEXT_FILE_EXT
+                try:
+                    if os.path.isfile(out_text_file_name_raw):
+                        response_text[idx] = True
+                    else:
+                        response_text[idx] = False
+                except:
+                    print('Process not completed ', sys.exc_info()[0]) 
+    return response_text
+
 def analyze_text(id):
     pass

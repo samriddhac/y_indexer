@@ -42,6 +42,13 @@ def get_text():
     response_text = t_analyzer.get_text(id)
     return util.send_response(config.response_type_text_response, data=response_text)
 
+@app.route('/check/texts')
+def check_text():
+    
+    ids = flask.request.args.get('ids')
+    response_text = t_analyzer.check_text(ids)
+    return util.send_response(config.response_type_text_response, data=response_text)
+
 @app.route('/health')
 def health():
     response = {

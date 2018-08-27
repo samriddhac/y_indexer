@@ -47,26 +47,22 @@ def filter_fields(response):
     result = {}
     result_list = []
     for item in response['items']:
-        type = item['id']['kind']
-        if type == 'youtube#playlist':
-            id = item['id']['playlistId']
-        else:
+        if 'id' in item and 'videoId' in item['id']:
             id = item['id']['videoId']
-
-        title = item['snippet']['title']
-        description = item['snippet']['description']
-        publishedAt = item['snippet']['publishedAt']
-        thumbnails = item['snippet']['thumbnails']['default']
-        
-        res_dict = {
-           'id':id,
-           'type':type,
-           'title':title,
-           'description':description,
-           'publishedAt':publishedAt,
-           'thumbnails':thumbnails
-        }
-        result_list.append(res_dict)
+            title = item['snippet']['title']
+            description = item['snippet']['description']
+            publishedAt = item['snippet']['publishedAt']
+            thumbnails = item['snippet']['thumbnails']['default']
+            
+            res_dict = {
+               'id':id,
+               'type':type,
+               'title':title,
+               'description':description,
+               'publishedAt':publishedAt,
+               'thumbnails':thumbnails
+            }
+            result_list.append(res_dict)
     
     result['items'] = result_list
     result['pageInfo'] = response['pageInfo']
