@@ -1,3 +1,10 @@
 conda install numpy pandas matplotlib keras scikit-learn
 pip install msgpack google-api-python-client pocketsphinx pyaudio SpeechRecognition boto3 pytube
 my-key-alias
+
+sox input.wav output.wav silence 1 3.0 0.1% 1 0.3 0.1% : newfile : restart 
+sox --i -D _2gHV0WeXjo_001.wav
+sox --i -D _2gHV0WeXjo_002.wav
+
+C:\Users\Samriddha.Chatterjee\AppData\Local\Continuum\anaconda3\lib\site-packages\speech_recognition
+/home/ubuntu/anaconda3/lib/python3.6/site-packages/speech_recognition
