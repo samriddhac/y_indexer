@@ -12,5 +12,5 @@ class WikibookbotoopSpider(scrapy.Spider):
         texts = response.xpath('//p/text()').extract()
         print('Text ',texts)
         with open('output.txt', 'w', encoding='utf8') as f:
-            f.write(texts);
+            f.write('\n'.join(text for text in texts))
 
