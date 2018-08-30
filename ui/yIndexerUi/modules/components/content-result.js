@@ -118,7 +118,6 @@ class ContentResult extends Component {
 
 	_renderText(){
 		let data = this.props.text;
-
 		return (
 			<View style={styles.contentText}>
 				<TabContent data={data} />

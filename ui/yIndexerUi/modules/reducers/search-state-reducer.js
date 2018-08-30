@@ -106,8 +106,8 @@ function setResultStatusReady(data, prevresult){
 	let searchresult = [];
 	if(prevresult && prevresult.length>0) {
 		prevresult.forEach((item)=>{
-			if(data[item.id] && data[item.id] === true){
-				item.status = status;
+			if(data.data[item.id] && data.data[item.id] === true){
+				item.status = STATUS_READY;
 			}
 		});
 	}

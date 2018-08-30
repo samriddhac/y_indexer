@@ -8,3 +8,6 @@ sox --i -D _2gHV0WeXjo_002.wav
 
 C:\Users\Samriddha.Chatterjee\AppData\Local\Continuum\anaconda3\lib\site-packages\speech_recognition
 /home/ubuntu/anaconda3/lib/python3.6/site-packages/speech_recognition
+
+cd wikibot
+scrapy genspider example example.com
