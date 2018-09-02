@@ -139,6 +139,8 @@ def split_file(id, in_file_path):
                                 duration_list.append(float(line[line.index(silence_duration)+len(silence_duration)+1:]))
                     print(len(start_list))
                     mean_silence = statistics.mean(duration_list)
+                    if len(start_list) > len(end_list):
+                        start_list.pop()
                     if len(start_list) == len(end_list) :
                         idx = 0
                         start_idx = 0
