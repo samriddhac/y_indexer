@@ -25,11 +25,13 @@ if env == 'local':
     FFMPEG_PATH = 'F://Samriddha/personal/ffmpeg/bin/'
     FILE_SEPARATOR = '/'
     AWS_CLI_PATH = r'C://Program Files/Amazon/AWSCLI/'
+    SOX_PATH = r'F://Samriddha/personal/sox-14-4-2/'
 else:
     DOWNLOAD_LOCATION = '/home/ubuntu/efs_shared/indexer'
     FFMPEG_PATH = '/usr/bin/'
     FILE_SEPARATOR = '/'
     AWS_CLI_PATH = '/usr/bin/'
+    SOX_PATH = '/usr/bin/'
 
 
 INPUT_FILE_EXT = '.mp4'
