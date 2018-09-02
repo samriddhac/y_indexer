@@ -9,7 +9,7 @@ import threading
 import speech_recognition as sr
 import boto3
 import urllib
-import re
+import statistics
 import api_config as config
 import text_analyzer as t_analyzer
 
@@ -138,6 +138,7 @@ def split_file(id, in_file_path):
                             if silence_duration in line:
                                 duration_list.append(float(line[line.index(silence_duration)+len(silence_duration)+1:]))
                     print(len(start_list))
+                    mean_silence = statistics.mean(duration_list)
                     if len(start_list) == len(end_list) :
                         idx = 0
                         start_idx = 0
@@ -161,7 +162,7 @@ def split_file(id, in_file_path):
                                 if i != last_idx:   
                                     start_time = end_list[start_idx] - buffer
                                     for j in range(start_idx,len(start_list)):
-                                        if duration_list[j] < 3 and j != last_idx-1:
+                                        if duration_list[j] < mean_silence and j != last_idx-1:
                                             continue
                                         else:
                                             idx = idx + 1
