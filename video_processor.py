@@ -109,63 +109,81 @@ def processVideoAsync(id, type):
 
 def split_file(id, in_file_path):
     file_dict = {}
-    buffer = 0.3
-    file_location =  config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR
-    vol_file = file_location+id+'_vol.txt'
-    cmd_2 = config.FFMPEG_PATH+'ffmpeg -i '+ in_file_path +' '\
-        +'-af silencedetect=noise=-30dB:d=0.5 -f null - 2>' \
-        +vol_file
-    pr_status_segment = subprocess.call(cmd_2, shell=True)
-    if pr_status_segment == 0:
-        if os.path.isfile(vol_file):
-            with open(vol_file, 'r', encoding='utf8') as f:
-                vol_content = f.read()
-                lines = vol_content.split('\n')
-                start_list = []
-                end_list = []
-                duration_list = []
-                for line in lines:
-                    silence_start = 'silence_start:'
-                    silence_end = 'silence_end:'
-                    silence_duration = 'silence_duration:'
-                    pipe = '|'
-                    if silence_start in line:
-                        start_list.append(float(line[line.index(silence_start)+len(silence_start)+1:]))
-                    else:
-                        if silence_end in line:
-                            end_list.append(float(line[line.index(silence_end)+len(silence_end)+1:line.index(pipe)-1]))
-                        if silence_duration in line:
-                            duration_list.append(float(line[line.index(silence_duration)+len(silence_duration)+1:]))
-                print(len(start_list))
-                if len(start_list) == len(end_list) :
-                    idx = 0
-                    start_idx = 0
-                    for i in range(len(start_list)):
-                        if start_idx < len(start_list) :
-                            last_idx = len(start_list)-1
-                            if i != last_idx:   
-                                start_time = end_list[start_idx] - buffer
-                                for j in range(start_idx,len(start_list)):
-                                    if duration_list[j] < 3 and j != last_idx-1:
-                                        continue
-                                    else:
-                                        idx = idx + 1
-                                        period = start_list[j+1] - start_time + buffer
-                                        out_file = file_location+id+'_'+str(idx)+config.OUTPUT_FILE_EXT
-                                        cmd = config.FFMPEG_PATH+'ffmpeg -ss '+ str(start_time) \
-                                                + ' -t '+ str(period) +' -i '+in_file_path \
-                                                + ' '+out_file
-                                        print(cmd)
-                                        pr_status_split = subprocess.call(cmd, shell=True)
-                                        print(pr_status_split)
-                                        if pr_status_split == 0:
-                                            entry = {}
-                                            entry['file']=out_file
-                                            entry['pause']=duration_list[j]
-                                            file_dict[idx]=entry
-                                        start_idx = j
-                                        break
-                        start_idx = start_idx + 1
+    try:
+        buffer = 0.3
+        file_location =  config.DOWNLOAD_LOCATION+config.FILE_SEPARATOR
+        vol_file = file_location+id+'_vol.txt'
+        cmd_2 = config.FFMPEG_PATH+'ffmpeg -i '+ in_file_path +' '\
+            +'-af silencedetect=noise=-30dB:d=0.5 -f null - 2>' \
+            +vol_file
+        pr_status_segment = subprocess.call(cmd_2, shell=True)
+        if pr_status_segment == 0:
+            if os.path.isfile(vol_file):
+                with open(vol_file, 'r', encoding='utf8') as f:
+                    vol_content = f.read()
+                    lines = vol_content.split('\n')
+                    start_list = []
+                    end_list = []
+                    duration_list = []
+                    for line in lines:
+                        silence_start = 'silence_start:'
+                        silence_end = 'silence_end:'
+                        silence_duration = 'silence_duration:'
+                        pipe = '|'
+                        if silence_start in line:
+                            start_list.append(float(line[line.index(silence_start)+len(silence_start)+1:]))
+                        else:
+                            if silence_end in line:
+                                end_list.append(float(line[line.index(silence_end)+len(silence_end)+1:line.index(pipe)-1]))
+                            if silence_duration in line:
+                                duration_list.append(float(line[line.index(silence_duration)+len(silence_duration)+1:]))
+                    print(len(start_list))
+                    if len(start_list) == len(end_list) :
+                        idx = 0
+                        start_idx = 0
+                        if start_list[0] > 0:
+                            start_period = start_list[0] - 0 + buffer
+                            out_file_0 = file_location+id+'_'+str(idx)+config.OUTPUT_FILE_EXT
+                            cmd_0 = config.FFMPEG_PATH+'ffmpeg -ss '+ str(0) \
+                                    + ' -t '+ str(start_period) +' -i '+in_file_path \
+                                    + ' '+out_file_0
+                            print(cmd_0)
+                            pr_status_split_0 = subprocess.call(cmd_0, shell=True)
+                            print(pr_status_split_0)
+                            if pr_status_split_0 == 0:
+                                entry_0 = {}
+                                entry_0['file']=out_file_0
+                                entry_0['pause']=duration_list[0]
+                                file_dict[idx]=entry_0
+                        for i in range(len(start_list)):
+                            if start_idx < len(start_list) :
+                                last_idx = len(start_list)-1
+                                if i != last_idx:   
+                                    start_time = end_list[start_idx] - buffer
+                                    for j in range(start_idx,len(start_list)):
+                                        if duration_list[j] < 3 and j != last_idx-1:
+                                            continue
+                                        else:
+                                            idx = idx + 1
+                                            period = start_list[j+1] - start_time + buffer
+                                            out_file = file_location+id+'_'+str(idx)+config.OUTPUT_FILE_EXT
+                                            cmd = config.FFMPEG_PATH+'ffmpeg -ss '+ str(start_time) \
+                                                    + ' -t '+ str(period) +' -i '+in_file_path \
+                                                    + ' '+out_file
+                                            print(cmd)
+                                            pr_status_split = subprocess.call(cmd, shell=True)
+                                            print(pr_status_split)
+                                            if pr_status_split == 0:
+                                                entry = {}
+                                                entry['file']=out_file
+                                                entry['pause']=duration_list[j]
+                                                file_dict[idx]=entry
+                                            start_idx = j
+                                            break
+                            start_idx = start_idx + 1
+    except:
+        print('Conversion failed ', sys.exc_info()[0])
+        raise
     return file_dict
 
 def delete_temp_files(filelist):
